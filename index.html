@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Logiciel de gestion de silo à céréales | Granaris</title>
-<meta name="description" content="Logiciel Windows de gestion de silo à céréales : pesée, stock par cellule et par déposant, expéditions, ventilation, facturation du stockage. Essai gratuit.">
+<meta name="description" content="Logiciel Windows de gestion de silo à céréales : pesée, stock par cellule et par déposant, expéditions, ventilation, facturation du stockage. Essai gratuit sur demande.">
 <link rel="canonical" href="https://granaris.agristock.fr/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
@@ -28,8 +28,7 @@
   "operatingSystem": "Windows 10, Windows 11",
   "inLanguage": "fr",
   "url": "https://granaris.agristock.fr/",
-  "image": "https://granaris.agristock.fr/images/accueil.png",
-  "downloadUrl": "https://github.com/granaris/granaris-releases/releases/latest"
+  "image": "https://granaris.agristock.fr/images/accueil.png"
 }
 </script>
 <link rel="icon" href="favicon.ico">
@@ -123,7 +122,7 @@ dialog img{max-height:92vh}
       <a href="#fonctions">Fonctions</a>
       <a href="#licences">Licences</a>
       <a href="#questions">Questions</a>
-      <a href="#telecharger">Télécharger</a>
+      <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -133,7 +132,7 @@ dialog img{max-height:92vh}
   <div class="col">
     <h1>Logiciel de gestion de silo à céréales</h1>
     <p class="chapeau">Granaris enregistre les apports, calcule les poids aux normes, suit le stock de chaque cellule et de chaque déposant, prépare les expéditions et facture les prestations de stockage. Il fonctionne sur un PC Windows, sans connexion obligatoire.</p>
-    <a class="bouton" href="#telecharger">Télécharger la version d'essai</a>
+    <a class="bouton" href="#contact">Demander la version d'essai</a>
     <a class="bouton second" href="#fonctions">Voir les fonctions</a>
     <figure class="capture">
       <img src="images/accueil.png" alt="Tableau de bord de Granaris : stock physique, entrées et sorties du jour, montants à facturer, stock par céréale et remplissage des cellules" width="1572" height="933">
@@ -270,20 +269,26 @@ dialog img{max-height:92vh}
   </div>
 </section>
 
-<section class="partie grise" id="telecharger">
-  <div class="col">
+<section class="partie grise" id="contact">
+  <div class="col deux">
     <div class="telechargement">
-      <h2>Télécharger Granaris</h2>
-      <p>Version d'essai pour Windows 10 et 11. Au premier démarrage, un assistant vous demande votre entreprise, la campagne, vos céréales et vos cellules.</p>
-      <a class="bouton" href="https://github.com/granaris/granaris-releases/releases/latest">Télécharger pour Windows</a>
-      <a class="bouton second" href="https://github.com/granaris/granaris-releases/releases">Versions précédentes</a>
+      <h2>Essayer Granaris</h2>
+      <p>La version d'essai fonctionne sur Windows 10 et 11. Demandez-la par e-mail ou par téléphone : vous recevez le lien d'installation, et nous pouvons vous montrer le logiciel sur votre propre silo.</p>
+      <a class="bouton" href="#contact" data-mail data-sujet="Granaris - demande de version d'essai">Demander la version d'essai</a>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      <p><b>Auxence Micou</b><br>
+      Téléphone : <a href="#contact" data-tel>affiché avec JavaScript</a><br>
+      E-mail : <a href="#contact" data-mail data-texte>affiché avec JavaScript</a></p>
+      <p style="font-size:15px;color:var(--doux)">Démonstration, questions sur les licences, reprise des données de votre ancien logiciel : appelez ou écrivez.</p>
     </div>
   </div>
 </section>
 </main>
 
 <footer>
-  <div class="col">Granaris, logiciel de gestion de silo à céréales · <span id="annee">2026</span></div>
+  <div class="col">Granaris, logiciel de gestion de silo à céréales · Auxence Micou · <a href="#contact" data-tel></a> · <a href="#contact" data-mail data-texte></a> · <span id="annee">2026</span></div>
 </footer>
 
 <dialog id="zoom"><img id="zoom-img" alt=""></dialog>
@@ -295,6 +300,19 @@ document.querySelectorAll('.fonction img, .capture img').forEach(img => img.addE
   zoom.showModal();
 }));
 zoom.addEventListener('click', () => zoom.close());
+// Coordonnées : jamais écrites en clair dans la page (les robots de spam lisent le code HTML).
+// Elles sont reconstituées ici, à l'affichage, à partir de morceaux inversés.
+(() => {
+  const r = (t) => t.split('').reverse().join('');
+  const mail = r('leicigol.siranarg') + String.fromCharCode(64) + r('liamg') + '.' + r('moc');
+  const tel = ['07', '86', '03', '17', '89'];
+  document.querySelectorAll('[data-mail]').forEach((a) => {
+    const sujet = a.dataset.sujet ? '?subject=' + encodeURIComponent(a.dataset.sujet) : '';
+    a.href = 'mai' + 'lto:' + mail + sujet;
+    if (a.hasAttribute('data-texte')) a.textContent = mail;
+  });
+  document.querySelectorAll('[data-tel]').forEach((a) => { a.href = 'tel:+33' + tel.join('').slice(1); a.textContent = tel.join(' '); });
+})();
 document.getElementById('annee').textContent = new Date().getFullYear();
 </script>
 </body>
