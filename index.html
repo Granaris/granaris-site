@@ -116,6 +116,9 @@ details p{margin:10px 0 0;color:var(--texte)}
 .fiche .secours textarea{font-family:Consolas,monospace;font-size:14px;margin-bottom:10px}
 .fiche .petit{font-size:13px;color:var(--doux);margin:16px 0 0}
 button.bouton{border:0;font:inherit;font-weight:600;cursor:pointer}
+button.bouton:disabled{opacity:.6;cursor:wait}
+.fiche .piege{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.fiche .succes{color:#1d6b3a;font-weight:600;margin:14px 0 0;padding:10px 12px;background:#e8f4ec;border:1px solid #b8dcc4}
 button.bouton.second{border:1px solid var(--bleu);padding:10px 18px;border-radius:4px}
 @media (min-width:860px){.fiche .champs{grid-template-columns:1fr 1fr}}
 footer{border-top:1px solid var(--trait);padding:26px 0 40px;font-size:14px;color:var(--doux)}
@@ -282,7 +285,7 @@ dialog img{max-height:92vh}
     <p style="margin-top:14px;font-size:15px;color:var(--doux)">La licence est liée au PC sur lequel elle est activée. En cas de changement de PC, une nouvelle clé est fournie.</p>
 
     <h3 id="demande-cle" style="margin-top:38px">Demander une clé d'activation</h3>
-    <p>Écrivez-nous à <a href="#demande-cle" data-mail data-texte data-sujet="Granaris - demande de clé d'activation"></a>, ou remplissez la fiche ci-dessous : elle prépare l'e-mail de demande dans votre messagerie, vous n'avez plus qu'à l'envoyer. La clé vous est renvoyée par e-mail, avec la marche à suivre pour l'activer.</p>
+    <p>Écrivez-nous à <a href="#demande-cle" data-mail data-texte data-sujet="Granaris - demande de clé d'activation"></a>, ou remplissez la fiche ci-dessous. La clé vous est renvoyée par e-mail, avec la marche à suivre pour l'activer.</p>
 
     <form class="fiche" id="fiche-cle" novalidate>
       <div class="champs">
@@ -304,14 +307,17 @@ dialog img{max-height:92vh}
         <label class="choix"><input type="checkbox" name="options" value="CSA-GTP"> <span><b>CSA-GTP</b> : documents d'audit, tâches réglementaires, dératisation, insecticides</span></label>
       </fieldset>
       <label class="message">Message<textarea name="message" rows="3" placeholder="Nombre de postes, questions, reprise des données de votre ancien logiciel…"></textarea></label>
+      <!-- Piège à robots : case invisible pour un humain ; cochée, Web3Forms ignore l'envoi. -->
+      <input type="checkbox" name="botcheck" class="piege" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="erreur" id="fiche-erreur" role="alert" hidden></p>
-      <button class="bouton" type="submit">Préparer l'e-mail de demande</button>
+      <button class="bouton" type="submit" id="fiche-envoyer">Envoyer la demande</button>
+      <p class="succes" id="fiche-succes" role="status" hidden>Votre demande est envoyée. Nous vous répondons par e-mail avec votre clé ou nos questions.</p>
       <div class="secours" id="fiche-secours" hidden>
-        <p>Si votre messagerie ne s'est pas ouverte, copiez la demande et envoyez-la à <a href="#demande-cle" data-mail data-texte></a> depuis votre boîte e-mail.</p>
+        <p>L'envoi n'a pas abouti. Vous pouvez <a href="#demande-cle" id="fiche-mailto">ouvrir l'e-mail prêt à envoyer</a>, ou copier la demande et l'envoyer à <a href="#demande-cle" data-mail data-texte></a> depuis votre boîte e-mail.</p>
         <textarea id="fiche-texte" rows="9" readonly></textarea>
         <button class="bouton second" type="button" id="fiche-copier">Copier la demande</button>
       </div>
-      <p class="petit">Les informations saisies ne sont enregistrées nulle part sur ce site : elles servent uniquement à rédiger l'e-mail, que vous envoyez vous-même.</p>
+      <p class="petit">Votre demande nous est transmise par e-mail via le service Web3Forms. Les informations saisies servent uniquement à traiter votre demande de licence.</p>
     </form>
   </div>
 </section>
@@ -371,12 +377,17 @@ zoom.addEventListener('click', () => zoom.close());
   });
   document.querySelectorAll('[data-tel]').forEach((a) => { a.href = 'tel:+33' + tel.join('').slice(1); a.textContent = tel.join(' '); });
 
-  // Fiche « Demander une clé d'activation » : rien n'est envoyé par le site (pas de serveur) ;
-  // la fiche rédige l'e-mail et l'ouvre dans la messagerie du visiteur, qui l'envoie lui-même.
+  // Fiche « Demander une clé d'activation » : envoyée par Web3Forms (le site n'a pas de serveur), qui la
+  // transmet par e-mail à l'éditeur. La clé d'accès Web3Forms peut être publique : elle ne permet
+  // d'envoyer QUE vers la boîte de l'éditeur. En cas d'échec : e-mail préparé + « Copier la demande ».
+  const CLE_WEB3FORMS = '0ab97fdf-47bd-4764-b068-65bf6eb9518b';
   const fiche = document.getElementById('fiche-cle');
   if (!fiche) return;
   const erreur = document.getElementById('fiche-erreur');
-  fiche.addEventListener('submit', (e) => {
+  const bouton = document.getElementById('fiche-envoyer');
+  const succes = document.getElementById('fiche-succes');
+  const secours = document.getElementById('fiche-secours');
+  fiche.addEventListener('submit', async (e) => {
     e.preventDefault();
     const f = new FormData(fiche);
     const v = (k) => String(f.get(k) || '').trim();
@@ -405,8 +416,29 @@ zoom.addEventListener('click', () => zoom.close());
     const corps = lignes.join('\n');
     const sujet = "Granaris - demande de clé d'activation (" + choix + ')';
     document.getElementById('fiche-texte').value = 'À : ' + mail + '\nObjet : ' + sujet + '\n\n' + corps;
-    document.getElementById('fiche-secours').hidden = false;
-    window.location.href = 'mai' + 'lto:' + mail + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(corps);
+    document.getElementById('fiche-mailto').href = 'mai' + 'lto:' + mail + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(corps);
+
+    const envoi = new FormData();
+    envoi.append('access_key', CLE_WEB3FORMS);
+    envoi.append('subject', sujet);
+    envoi.append('from_name', 'Site Granaris');
+    envoi.append('replyto', v('email')); // « Répondre » dans ta messagerie écrit directement au demandeur
+    envoi.append('botcheck', f.get('botcheck') ? 'on' : '');
+    envoi.append('message', corps);
+
+    bouton.disabled = true; bouton.textContent = 'Envoi en cours…';
+    succes.hidden = true; secours.hidden = true;
+    try {
+      const reponse = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: envoi, headers: { Accept: 'application/json' } });
+      const donnees = await reponse.json().catch(() => ({}));
+      if (!reponse.ok || donnees.success === false) throw new Error(donnees.message || 'refus du service');
+      succes.hidden = false;
+      fiche.reset();
+    } catch (err) {
+      secours.hidden = false;
+    } finally {
+      bouton.disabled = false; bouton.textContent = 'Envoyer la demande';
+    }
   });
   document.getElementById('fiche-copier').addEventListener('click', async (e) => {
     const t = document.getElementById('fiche-texte');
