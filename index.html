@@ -182,7 +182,7 @@ dialog img{max-height:92vh}
       <div class="texte">
         <h3>Réception et pesée</h3>
         <p>Le bon d'apport reprend la pesée du camion plein puis vide, l'humidité, les impuretés, le PS et les protéines. Le poids net aux normes est calculé avec les barèmes de réfaction et de séchage de la campagne.</p>
-        <p>Un camion en attente de sa deuxième pesée reste en bon provisoire et reste signalé jusqu'à sa validation. Avec l'option pont-bascule, le poids arrive directement de l'indicateur.</p>
+        <p>Un camion en attente de sa deuxième pesée reste en bon provisoire et reste signalé jusqu'à sa validation.</p>
       </div>
       <figure><img src="images/mouvements.png" alt="Liste des entrées de la campagne avec poids humide, poids sec, humidité et statut" width="1572" height="933" loading="lazy"></figure>
     </div>
@@ -254,7 +254,6 @@ dialog img{max-height:92vh}
       <li><b>Contrats avec des tiers.</b> Tonnage engagé, expédié et restant, jusqu'au solde du contrat.</li>
       <li><b>Clôture de campagne.</b> La liste de ce qui reste à faire avant le 31 mai, puis l'ouverture de la campagne suivante avec le report du stock.</li>
       <li><b>CSA-GTP (option).</b> Documents d'audit, tâches réglementaires, maintenance, insecticides, dératisation, nettoyage des transports.</li>
-      <li><b>Pont-bascule (option).</b> Lecture de l'indicateur par port COM ou adaptateur USB-série, journal des pesées du jour.</li>
       <li><b>Reprise de l'ancien logiciel.</b> Import des tiers et du stock de départ depuis un fichier CSV, avec un aperçu ligne par ligne avant l'import.</li>
       <li><b>Sauvegardes.</b> Copie toutes les 5 minutes et chaque jour sur le PC, sur une clé USB ou un disque, et une copie chiffrée dans votre OneDrive, Google Drive ou Dropbox.</li>
       <li><b>Export Excel.</b> Les mouvements de chaque campagne dans un fichier Excel mis à jour à chaque sauvegarde.</li>
@@ -273,7 +272,7 @@ dialog img{max-height:92vh}
           <tr><th>Apporteurs</th><td>2</td><td>3</td><td>Sans limite</td></tr>
           <tr><th>Mouvements (entrées et sorties)</th><td>3</td><td>Sans limite</td><td>Sans limite</td></tr>
           <tr><th>Toutes les fonctions</th><td>Oui</td><td>Oui</td><td>Oui</td></tr>
-          <tr><th>Options CSA-GTP et pont-bascule</th><td>Ouvertes pendant l'essai</td><td>En supplément</td><td>En supplément</td></tr>
+          <tr><th>Option CSA-GTP</th><td>Ouverte pendant l'essai</td><td>En supplément</td><td>En supplément</td></tr>
           <tr><th>Documents imprimés</th><td>Mention « Version d'essai »</td><td>Sans mention</td><td>Sans mention</td></tr>
           <tr><th>Mises à jour</th><td>Non</td><td>Pendant la maintenance</td><td>Pendant la maintenance</td></tr>
         </tbody>
@@ -300,9 +299,8 @@ dialog img{max-height:92vh}
         <label class="choix"><input type="radio" name="licence" value="Silo"> <span><b>Silo</b> : apporteurs sans limite</span></label>
       </fieldset>
       <fieldset>
-        <legend>Options</legend>
+        <legend>Option</legend>
         <label class="choix"><input type="checkbox" name="options" value="CSA-GTP"> <span><b>CSA-GTP</b> : documents d'audit, tâches réglementaires, dératisation, insecticides</span></label>
-        <label class="choix"><input type="checkbox" name="options" value="Pont-bascule"> <span><b>Pont-bascule</b> : lecture du poids de l'indicateur</span></label>
       </fieldset>
       <label class="message">Message<textarea name="message" rows="3" placeholder="Nombre de postes, questions, reprise des données de votre ancien logiciel…"></textarea></label>
       <p class="erreur" id="fiche-erreur" role="alert" hidden></p>
