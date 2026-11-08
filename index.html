@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Granaris — Logiciel de gestion de silo à céréales</title>
+<meta name="description" content="Granaris : logiciel Windows de gestion de silo à céréales. Réception et pesée, stock par cellule et par déposant, expéditions, contrats, ventilation, facturation des prestations de stockage, CSA-GTP.">
+<meta property="og:title" content="Granaris — Gestion de silo à céréales">
+<meta property="og:description" content="Réception, stockage, expédition et facturation des prestations, pour les agriculteurs et les silos qui stockent pour des tiers.">
+<meta property="og:image" content="https://granaris.agristock.fr/images/accueil.png">
+<meta property="og:url" content="https://granaris.agristock.fr/">
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bleu:#1f5fae; --bleu-f:#163f73; --or:#e9a722; --or-c:#fbf1d9;
+  --encre:#1d2733; --gris:#5b6675; --fond:#f6f4ee; --carte:#ffffff; --trait:#e3ded2;
+  --vert:#2f7d4f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--encre);background:var(--fond);line-height:1.55;font-size:17px}
+img{max-width:100%;display:block}
+a{color:var(--bleu)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+
+/* En-tête */
+header.top{position:sticky;top:0;z-index:10;background:rgba(246,244,238,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--trait)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.marque{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:.06em;color:var(--bleu-f);text-decoration:none}
+.marque img{width:30px;height:30px}
+nav.liens{display:flex;gap:22px;align-items:center}
+nav.liens a{color:var(--encre);text-decoration:none;font-weight:600;font-size:15px}
+nav.liens a:hover{color:var(--bleu)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:8px;font-weight:700;text-decoration:none;font-size:16px;border:2px solid transparent;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(22,63,115,.18)}
+.btn-or{background:var(--or);color:#2b1d00}
+.btn-bleu{background:var(--bleu);color:#fff}
+.btn-ligne{border-color:var(--bleu);color:var(--bleu);background:transparent}
+nav.liens .btn{padding:8px 16px;font-size:15px;color:#fff}
+
+/* Accroche */
+.hero{background:linear-gradient(180deg,var(--bleu-f) 0%,var(--bleu) 100%);color:#fff;padding:72px 0 0;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1fr;gap:40px}
+.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.08;margin:0 0 18px;font-weight:800;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--or)}
+.hero p.lead{font-size:clamp(18px,2vw,21px);max-width:720px;margin:0 0 28px;color:#dbe7f6}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.hero .actions .btn-ligne{border-color:#fff;color:#fff}
+.hero small{color:#b9cde6;font-size:14px}
+.ecran{border-radius:10px 10px 0 0;box-shadow:0 -4px 40px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.25);border-bottom:0;margin-top:20px}
+
+/* Sections */
+section{padding:84px 0}
+.surtitre{color:var(--or);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:13px;margin:0 0 8px}
+h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;margin:0 0 14px;color:var(--bleu-f)}
+.intro{color:var(--gris);max-width:760px;font-size:19px;margin:0 0 40px}
+
+.pourqui{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.carte{background:var(--carte);border:1px solid var(--trait);border-radius:12px;padding:26px}
+.carte h3{margin:0 0 8px;font-size:21px;color:var(--bleu-f)}
+.carte p{margin:0;color:var(--gris)}
+.carte .ico{font-size:28px;margin-bottom:10px}
+
+.fonctions{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.fonctions .carte h3{font-size:18px}
+.fonctions .carte p{font-size:16px}
+
+/* Visite en images */
+.visite{background:#fff;border-top:1px solid var(--trait);border-bottom:1px solid var(--trait)}
+.onglets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.onglets button{font:inherit;font-size:15px;font-weight:600;padding:9px 16px;border-radius:999px;border:1px solid var(--trait);background:var(--fond);color:var(--encre);cursor:pointer}
+.onglets button[aria-selected="true"]{background:var(--bleu);border-color:var(--bleu);color:#fff}
+.vue{display:grid;grid-template-columns:1fr;gap:22px;align-items:start}
+.vue figure{margin:0}
+.vue img{border-radius:10px;border:1px solid var(--trait);box-shadow:0 10px 30px rgba(22,63,115,.12);cursor:zoom-in}
+.vue .texte h3{margin:0 0 8px;font-size:24px;color:var(--bleu-f)}
+.vue .texte p{margin:0 0 12px;color:var(--gris)}
+.vue .texte ul{margin:0;padding-left:20px;color:var(--encre)}
+.vue .texte li{margin:4px 0}
+
+/* Points forts */
+.bande{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.point{border-left:4px solid var(--or);padding:4px 0 4px 16px}
+.point strong{display:block;font-size:18px;color:var(--bleu-f);margin-bottom:4px}
+.point span{color:var(--gris);font-size:16px}
+
+/* Licences */
+.offres{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.offre{background:#fff;border:1px solid var(--trait);border-radius:12px;padding:28px;display:flex;flex-direction:column}
+.offre.mise{border:2px solid var(--bleu);box-shadow:0 10px 30px rgba(22,63,115,.12)}
+.offre h3{margin:0 0 4px;font-size:22px;color:var(--bleu-f)}
+.offre .pour{color:var(--gris);margin:0 0 16px;font-size:15px}
+.offre ul{margin:0;padding:0;list-style:none}
+.offre li{padding:6px 0 6px 26px;position:relative;font-size:16px}
+.offre li::before{content:"✓";position:absolute;left:0;color:var(--vert);font-weight:800}
+
+/* Téléchargement */
+.telecharger{background:linear-gradient(135deg,var(--bleu-f),var(--bleu));color:#fff;border-radius:16px;padding:44px;display:grid;grid-template-columns:1fr;gap:24px;align-items:center}
+.telecharger h2{color:#fff}
+.telecharger p{color:#dbe7f6;margin:0}
+.telecharger .note{font-size:14px;color:#b9cde6;margin-top:10px}
+
+footer{padding:36px 0 44px;color:var(--gris);font-size:14px;border-top:1px solid var(--trait)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+/* Agrandissement */
+dialog{border:0;padding:0;background:transparent;max-width:96vw}
+dialog::backdrop{background:rgba(10,20,35,.85)}
+dialog img{max-height:90vh;border-radius:8px}
+
+@media (min-width:900px){
+  .vue{grid-template-columns:2fr 1fr}
+  .telecharger{grid-template-columns:1.4fr 1fr}
+}
+@media (max-width:760px){
+  nav.liens a:not(.btn){display:none}
+  section{padding:60px 0}
+  .hero{padding-top:48px}
+  .telecharger{padding:28px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="marque" href="#"><img src="images/icon.png" alt="">GRANARIS</a>
+    <nav class="liens">
+      <a href="#fonctions">Fonctions</a>
+      <a href="#visite">Visite</a>
+      <a href="#licences">Licences</a>
+      <a class="btn btn-bleu" href="#telecharger">Télécharger</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Votre silo à céréales,<br><em>de la pesée à la facture.</em></h1>
+      <p class="lead">Granaris est un logiciel Windows pour gérer un silo : réception et pesée du grain, stock par cellule et par déposant, expéditions, contrats, ventilation et facturation des prestations de stockage. Il est fait pour les agriculteurs qui stockent leur propre grain comme pour les silos qui stockent pour des tiers.</p>
+      <div class="actions">
+        <a class="btn btn-or" href="#telecharger">Essayer gratuitement</a>
+        <a class="btn btn-ligne" href="#visite">Voir le logiciel</a>
+      </div>
+      <small>Windows 10 et 11 · données gardées sur votre PC · sans abonnement à un serveur</small>
+    </div>
+    <img class="ecran" src="images/accueil.png" alt="Tableau de bord de Granaris : stock physique, entrées et sorties du jour, montants à facturer, stock par céréale et remplissage des cellules" width="1572" height="933">
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <p class="surtitre">Pour qui</p>
+    <h2>Un seul logiciel, deux façons de stocker</h2>
+    <p class="intro">Tout est organisé par campagne (de juin à mai) : chaque liste et chaque total ne montrent que la campagne choisie, et le mode multicampagne permet d'en afficher plusieurs à la fois.</p>
+    <div class="pourqui">
+      <div class="carte">
+        <div class="ico">🌾</div>
+        <h3>Agriculteurs qui stockent leur grain</h3>
+        <p>Suivez vos apports, vos cellules, le séchage et la conservation jusqu'à la vente, avec un stock juste à la tonne près.</p>
+      </div>
+      <div class="carte">
+        <div class="ico">🏭</div>
+        <h3>Silos qui stockent pour des tiers</h3>
+        <p>Gérez le stock de chaque déposant, les contrats avec les acheteurs, et facturez l'entrée, la sortie, le séchage et le stockage à la quinzaine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fonctions" style="padding-top:0">
+  <div class="wrap">
+    <p class="surtitre">Fonctions</p>
+    <h2>Tout le travail du silo, au même endroit</h2>
+    <p class="intro">Le stock affiché est le même partout : tableau de bord, entrées et sorties, page Stock.</p>
+    <div class="fonctions">
+      <div class="carte"><div class="ico">⚖️</div><h3>Réception et pesée</h3><p>Bon d'apport, pesée du camion plein puis vide, humidité, impuretés, PS, protéines. Le poids net aux normes est calculé avec les barèmes de réfaction et de séchage de la campagne.</p></div>
+      <div class="carte"><div class="ico">🚚</div><h3>Expéditions</h3><p>Bons d'expédition avec transporteur, CMR, contrôle avant chargement et échantillon témoin. Expéditions partagées entre déposants, en FIFO multicampagne.</p></div>
+      <div class="carte"><div class="ico">📦</div><h3>Stock et cellules</h3><p>Stock par cellule et par déposant × céréale. Remplissage, historique, cycles de séchage et traitements, report en campagne suivante.</p></div>
+      <div class="carte"><div class="ico">📝</div><h3>Contrats avec des tiers</h3><p>Chaque expédition rattachée fait avancer le contrat jusqu'au solde. Le contrat s'imprime ou s'envoie par e-mail.</p></div>
+      <div class="carte"><div class="ico">🧾</div><h3>Facturation des prestations</h3><p>Entrée, sortie, séchage, stockage à la quinzaine avec gratuités, prestations annexes. Les factures émises sont figées et portent les mentions légales. Relevés de compte par client.</p></div>
+      <div class="carte"><div class="ico">🌬️</div><h3>Ventilation</h3><p>Prévisions météo heure par heure sur 7 jours et prochain créneau conseillé pour chaque cellule. Relevés de température par sonde, courbes, alerte d'échauffement.</p></div>
+      <div class="carte"><div class="ico">🛡️</div><h3>CSA-GTP <small style="color:var(--gris);font-weight:600">(option)</small></h3><p>Documents d'audit, tâches réglementaires, maintenance, insecticides, dératisation et régimes de nettoyage des transports.</p></div>
+      <div class="carte"><div class="ico">🔌</div><h3>Pont-bascule <small style="color:var(--gris);font-weight:600">(option)</small></h3><p>Le poids de l'indicateur arrive directement dans le bon, par port COM ou par convertisseur USB-série. Un journal des pesées du jour est tenu automatiquement.</p></div>
+      <div class="carte"><div class="ico">📅</div><h3>Clôture de campagne</h3><p>Un tour guidé de ce qui reste à faire (bons provisoires, frais non facturés, factures non réglées, stock à reporter), puis l'ouverture de la campagne suivante.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="visite" class="visite">
+  <div class="wrap">
+    <p class="surtitre">Visite</p>
+    <h2>Le logiciel en images</h2>
+    <p class="intro">Captures prises sur la base de démonstration fournie avec le logiciel. Les données sont fictives.</p>
+    <div class="onglets" role="tablist" id="onglets"></div>
+    <div class="vue">
+      <figure><img id="vue-img" src="images/mouvements.png" alt="" width="1572" height="933"></figure>
+      <div class="texte"><h3 id="vue-titre"></h3><p id="vue-texte"></p><ul id="vue-liste"></ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="surtitre">Vos données</p>
+    <h2>Vos données restent chez vous</h2>
+    <p class="intro">La base de données est enregistrée sur votre PC, en continu. Aucun serveur de l'éditeur n'y a accès.</p>
+    <div class="bande">
+      <div class="point"><strong>Sauvegardes automatiques</strong><span>Une copie toutes les 5 minutes et une par jour pendant 30 jours, plus des copies sur deux emplacements de votre choix (clé USB, disque externe).</span></div>
+      <div class="point"><strong>Copie chiffrée hors du PC</strong><span>Chaque jour, une copie chiffrée en AES-256 est déposée dans votre OneDrive, Google Drive ou Dropbox, avec un mot de passe que vous seul connaissez.</span></div>
+      <div class="point"><strong>Restauration protégée</strong><span>Vous voyez un aperçu avant de restaurer, et une restauration qui effacerait la majorité des données est refusée.</span></div>
+      <div class="point"><strong>Export Excel</strong><span>À chaque sauvegarde, un fichier Excel des mouvements par campagne est écrit sur votre Bureau.</span></div>
+      <div class="point"><strong>Reprise de l'ancien logiciel</strong><span>Importez vos tiers et votre stock de départ depuis un fichier CSV, avec un aperçu ligne par ligne avant l'import.</span></div>
+      <div class="point"><strong>Mises à jour automatiques</strong><span>Les nouvelles versions se téléchargent en arrière-plan et s'installent au redémarrage. Vos données sont conservées.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="licences" style="padding-top:0">
+  <div class="wrap">
+    <p class="surtitre">Licences</p>
+    <h2>Commencez par l'essai, gardez vos données</h2>
+    <p class="intro">La version d'essai s'installe en quelques minutes. La clé de licence est liée à votre poste et s'active sans réinstaller : tout ce que vous avez saisi pendant l'essai est conservé.</p>
+    <div class="offres">
+      <div class="offre">
+        <h3>Essai gratuit</h3>
+        <p class="pour">Pour découvrir le logiciel</p>
+        <ul>
+          <li>Toutes les fonctions et toutes les options</li>
+          <li>Base de démonstration déjà remplie</li>
+          <li>2 apporteurs et 3 mouvements</li>
+          <li>Documents marqués « Version d'essai »</li>
+        </ul>
+      </div>
+      <div class="offre mise">
+        <h3>Ferme</h3>
+        <p class="pour">Pour l'agriculteur qui stocke son grain</p>
+        <ul>
+          <li>Toutes les fonctions du logiciel</li>
+          <li>Jusqu'à 3 apporteurs</li>
+          <li>Mouvements illimités</li>
+          <li>Options à ajouter : CSA-GTP, pont-bascule</li>
+        </ul>
+      </div>
+      <div class="offre">
+        <h3>Silo</h3>
+        <p class="pour">Pour le silo qui stocke pour des tiers</p>
+        <ul>
+          <li>Toutes les fonctions du logiciel</li>
+          <li>Apporteurs illimités</li>
+          <li>Mouvements illimités</li>
+          <li>Options à ajouter : CSA-GTP, pont-bascule</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="telecharger" style="padding-top:0">
+  <div class="wrap">
+    <div class="telecharger">
+      <div>
+        <h2>Télécharger Granaris</h2>
+        <p>Installez la version d'essai sur un PC Windows. Au premier démarrage, un assistant vous guide (entreprise, campagne, céréales, cellules), ou vous ouvrez la base de démonstration pour tout essayer.</p>
+        <p class="note">Les installateurs et les mises à jour sont publiés sur GitHub.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+        <a class="btn btn-or" href="https://github.com/granaris/granaris-releases/releases/latest">⬇ Télécharger pour Windows</a>
+        <a class="btn btn-ligne" style="border-color:#fff;color:#fff" href="https://github.com/granaris/granaris-releases/releases">Toutes les versions</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="annee">2026</span> Granaris — Gestion de silo à céréales</span>
+    <span>granaris.agristock.fr</span>
+  </div>
+</footer>
+
+<dialog id="zoom"><img id="zoom-img" alt=""></dialog>
+
+<script>
+const vues = [
+  { id:'mouvements', nom:'Entrées / Sorties', titre:'Entrées et sorties', texte:'Toutes les livraisons de la campagne, avec le poids humide, le poids sec aux normes, l\'humidité, les impuretés et le PS.',
+    liste:['Nouvel apport en un clic, ou action rapide','Bons provisoires signalés jusqu\'à la 2ᵉ pesée','Lots non conformes, compteur, récapitulatif par période','Totaux et humidité moyenne pondérée'] },
+  { id:'stock', nom:'Stock', titre:'Stock par déposant et par céréale', texte:'Le reste en stock de chaque déposant, calculé à partir des entrées aux normes et des expéditions.',
+    liste:['Filtres par client, céréale, campagne','Humidité, PS et protéines moyens','Rapport client imprimable','Plan de surveillance'] },
+  { id:'facturation', nom:'Facturation', titre:'Facturation des prestations', texte:'Entrée, sortie et séchage, stockage, prestations : tout ce qui reste à facturer, client par client.',
+    liste:['Tarifs par campagne et par céréale','Stockage à la quinzaine avec gratuités','Récapitulatifs, relevés de compte, suivi, bilan','Factures figées avec mentions légales'] },
+  { id:'emplacements', nom:'Cellules', titre:'Cellules de stockage', texte:'Le remplissage de chaque cellule, sa céréale, sa qualité et son état de traitement.',
+    liste:['Capacité et tonnage disponible','Traitements des locaux et du grain','Transilage d\'une cellule à l\'autre','Historique et cycles de séchage'] },
+  { id:'ventilation', nom:'Ventilation', titre:'Quand ventiler', texte:'Granaris lit la météo heure par heure et indique, pour chaque cellule, le prochain créneau favorable.',
+    liste:['Règle réglable (recommandations Arvalis)','Paliers de refroidissement 20, 12 puis 5 °C','Relevés par sonde et courbes','Alerte d\'échauffement'] },
+  { id:'contrats', nom:'Contrats', titre:'Contrats avec des tiers', texte:'Le tonnage engagé, expédié et restant à expédier pour chaque contrat.',
+    liste:['En attente, en cours, soldé','Prix et date d\'exécution','Envoi et réception du contrat signé','Impression et envoi par e-mail'] },
+  { id:'csa_gtp', nom:'CSA-GTP', titre:'CSA-GTP (option)', texte:'Un tableau de bord pour préparer l\'audit et suivre les obligations.',
+    liste:['Documents d\'audit classés','Tâches et échéances','Maintenance, insecticides, dératisation','Régimes de nettoyage des transports (IDTF)'] },
+];
+const onglets = document.getElementById('onglets');
+function montrer(v){
+  document.getElementById('vue-img').src = 'images/' + v.id + '.png';
+  document.getElementById('vue-img').alt = 'Granaris — ' + v.titre;
+  document.getElementById('vue-titre').textContent = v.titre;
+  document.getElementById('vue-texte').textContent = v.texte;
+  document.getElementById('vue-liste').innerHTML = v.liste.map(l => '<li>' + l + '</li>').join('');
+  onglets.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.id === v.id));
+}
+vues.forEach(v => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.role = 'tab'; b.dataset.id = v.id; b.textContent = v.nom;
+  b.onclick = () => montrer(v);
+  onglets.appendChild(b);
+});
+montrer(vues[0]);
+const zoom = document.getElementById('zoom');
+document.querySelectorAll('.vue img, .ecran').forEach(img => img.addEventListener('click', () => {
+  document.getElementById('zoom-img').src = img.src; zoom.showModal();
+}));
+zoom.addEventListener('click', () => zoom.close());
+document.getElementById('annee').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
