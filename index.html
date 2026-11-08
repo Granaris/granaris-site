@@ -91,6 +91,8 @@ table{width:100%;border-collapse:collapse;font-size:16px;background:#fff}
 th,td{border:1px solid var(--trait);padding:10px 12px;text-align:left;vertical-align:top}
 thead th{background:var(--fond2);color:var(--bleu-f)}
 .tableau{overflow-x:auto}
+tr.prix td{font-weight:700;color:var(--bleu-f);font-size:18px;white-space:nowrap}
+@media (max-width:600px){table{font-size:13.5px}th,td{padding:7px 6px}tr.prix td{font-size:15px;white-space:normal}}
 
 /* Questions */
 details{border-bottom:1px solid var(--trait);padding:12px 0}
@@ -274,10 +276,11 @@ dialog img{max-height:92vh}
       <table>
         <thead><tr><th></th><th>Essai</th><th>Ferme</th><th>Silo</th></tr></thead>
         <tbody>
+          <tr class="prix"><th>Prix</th><td>Gratuit</td><td>990&nbsp;€&nbsp;HT</td><td>1&nbsp;890&nbsp;€&nbsp;HT</td></tr>
           <tr><th>Apporteurs</th><td>2</td><td>3</td><td>Sans limite</td></tr>
           <tr><th>Mouvements (entrées et sorties)</th><td>3</td><td>Sans limite</td><td>Sans limite</td></tr>
           <tr><th>Toutes les fonctions</th><td>Oui</td><td>Oui</td><td>Oui</td></tr>
-          <tr><th>Option CSA-GTP</th><td>Ouverte pendant l'essai</td><td>En supplément</td><td>En supplément</td></tr>
+          <tr><th>Option CSA-GTP</th><td>Ouverte pendant l'essai</td><td>+ 590&nbsp;€&nbsp;HT</td><td>+ 590&nbsp;€&nbsp;HT</td></tr>
           <tr><th>Documents imprimés</th><td>Mention « Version d'essai »</td><td>Sans mention</td><td>Sans mention</td></tr>
           <tr><th>Mises à jour</th><td>Non</td><td>Pendant la maintenance</td><td>Pendant la maintenance</td></tr>
         </tbody>
@@ -300,12 +303,12 @@ dialog img{max-height:92vh}
       </div>
       <fieldset>
         <legend>Licence *</legend>
-        <label class="choix"><input type="radio" name="licence" value="Ferme" required> <span><b>Ferme</b> : jusqu'à 3 apporteurs</span></label>
-        <label class="choix"><input type="radio" name="licence" value="Silo"> <span><b>Silo</b> : apporteurs sans limite</span></label>
+        <label class="choix"><input type="radio" name="licence" value="Ferme" required> <span><b>Ferme</b> : jusqu'à 3 apporteurs, 990&nbsp;€&nbsp;HT</span></label>
+        <label class="choix"><input type="radio" name="licence" value="Silo"> <span><b>Silo</b> : apporteurs sans limite, 1&nbsp;890&nbsp;€&nbsp;HT</span></label>
       </fieldset>
       <fieldset>
         <legend>Option</legend>
-        <label class="choix"><input type="checkbox" name="options" value="CSA-GTP"> <span><b>CSA-GTP</b> : documents d'audit, tâches réglementaires, dératisation, insecticides</span></label>
+        <label class="choix"><input type="checkbox" name="options" value="CSA-GTP"> <span><b>CSA-GTP</b> : documents d'audit, tâches réglementaires, dératisation, insecticides, + 590&nbsp;€&nbsp;HT</span></label>
       </fieldset>
       <label class="message">Message<textarea name="message" rows="3" placeholder="Nombre de postes, questions, reprise des données de votre ancien logiciel…"></textarea></label>
       <!-- Piège à robots : case invisible pour un humain ; cochée, Web3Forms ignore l'envoi. -->
