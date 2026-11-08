@@ -203,6 +203,27 @@ dialog img{max-height:92vh}
       <figure><img src="images/ventilation.png" alt="Créneaux de ventilation conseillés par cellule sur sept jours" width="1572" height="933" loading="lazy"></figure>
     </div>
 
+    <div class="fonction idtf" id="idtf">
+      <div class="texte">
+        <h3>Contrôle du nettoyage des camions (base IDTF)</h3>
+        <p>La base IDTF des régimes de nettoyage du transport routier est intégrée au logiciel : 687 produits, avec leur numéro IDTF et leur régime. Sur chaque bon d'expédition, vous saisissez les trois derniers chargements du camion, par numéro IDTF ou par nom de produit.</p>
+        <p>Granaris en déduit le nettoyage exigé avant de charger votre grain : le régime le plus strict des trois. Un régime « Interdit » est signalé en rouge. Un produit absent de la base est considéré comme interdit tant que vous n'avez pas choisi son régime. Les trois chargements et leur régime restent enregistrés avec le bon, pour un audit CSA-GTP ou Qualimat.</p>
+      </div>
+      <div class="tableau">
+        <table>
+          <thead><tr><th>Régime</th><th>Nettoyage exigé avant chargement</th></tr></thead>
+          <tbody>
+            <tr><td><b>A</b></td><td>Balayage à sec</td></tr>
+            <tr><td><b>B</b></td><td>Nettoyage à sec</td></tr>
+            <tr><td><b>C</b></td><td>Nettoyage humide</td></tr>
+            <tr><td><b>D</b></td><td>Nettoyage et désinfection</td></tr>
+            <tr><td><b>Interdit</b></td><td>Chargement refusé</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:14px;color:var(--doux);margin-top:8px">Exemple : un camion qui a transporté du blé (A), puis une solution azotée de nitrate d'ammonium et d'urée (IDTF 30109, régime C), puis du colza (A) doit subir un nettoyage humide (C).</p>
+      </div>
+    </div>
+
     <h3 style="margin-top:34px">Et aussi</h3>
     <ul class="autres">
       <li><b>Expéditions.</b> Transporteur, immatriculation, CMR, contrôle avant chargement, échantillon témoin. Une expédition peut être partagée entre plusieurs déposants.</li>
