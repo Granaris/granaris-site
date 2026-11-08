@@ -12,4 +12,8 @@
     <image:image><image:loc>https://granaris.agristock.fr/images/ventilation.png</image:loc></image:image>
     <image:image><image:loc>https://granaris.agristock.fr/images/expedition-idtf.png</image:loc></image:image>
   </url>
+  <url>
+    <loc>https://granaris.agristock.fr/mentions-legales.html</loc>
+    <lastmod>2026-11-08</lastmod>
+  </url>
 </urlset>
