@@ -98,6 +98,26 @@ summary{cursor:pointer;font-weight:600;color:var(--bleu-f)}
 details p{margin:10px 0 0;color:var(--texte)}
 
 .telechargement{border-left:4px solid var(--jaune);padding:4px 0 4px 18px}
+
+/* Fiche de demande de clé */
+.fiche{background:#fff;border:1px solid var(--trait);padding:22px;margin-top:8px}
+.fiche .champs{display:grid;grid-template-columns:1fr;gap:14px 24px}
+.fiche label{display:block;font-size:15px;font-weight:600;color:var(--bleu-f)}
+.fiche input:not([type=radio]):not([type=checkbox]),.fiche textarea{display:block;width:100%;margin-top:4px;padding:9px 10px;font:inherit;font-weight:400;color:var(--texte);border:1px solid #b9bfc5;border-radius:3px;background:#fff}
+.fiche input:focus,.fiche textarea:focus{outline:2px solid var(--bleu);outline-offset:0;border-color:var(--bleu)}
+.fiche small{display:block;font-weight:400;color:var(--doux);font-size:13px;margin-top:3px}
+.fiche fieldset{border:0;padding:0;margin:20px 0 0}
+.fiche legend{font-weight:600;color:var(--bleu-f);font-size:15px;margin-bottom:6px}
+.fiche .choix{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--texte);padding:6px 0;cursor:pointer}
+.fiche .choix input{margin-top:5px;width:17px;height:17px;flex:none;accent-color:var(--bleu)}
+.fiche .message{margin:20px 0 16px}
+.fiche .erreur{color:#b3261e;font-weight:600;margin:0 0 12px}
+.fiche .secours{margin-top:18px;padding:14px;background:var(--fond2);border:1px solid var(--trait)}
+.fiche .secours textarea{font-family:Consolas,monospace;font-size:14px;margin-bottom:10px}
+.fiche .petit{font-size:13px;color:var(--doux);margin:16px 0 0}
+button.bouton{border:0;font:inherit;font-weight:600;cursor:pointer}
+button.bouton.second{border:1px solid var(--bleu);padding:10px 18px;border-radius:4px}
+@media (min-width:860px){.fiche .champs{grid-template-columns:1fr 1fr}}
 footer{border-top:1px solid var(--trait);padding:26px 0 40px;font-size:14px;color:var(--doux)}
 
 dialog{border:0;padding:0;max-width:96vw;background:none}
@@ -260,6 +280,40 @@ dialog img{max-height:92vh}
       </table>
     </div>
     <p style="margin-top:14px;font-size:15px;color:var(--doux)">La licence est liée au PC sur lequel elle est activée. En cas de changement de PC, une nouvelle clé est fournie.</p>
+
+    <h3 id="demande-cle" style="margin-top:38px">Demander une clé d'activation</h3>
+    <p>Écrivez-nous à <a href="#demande-cle" data-mail data-texte data-sujet="Granaris - demande de clé d'activation"></a>, ou remplissez la fiche ci-dessous : elle prépare l'e-mail de demande dans votre messagerie, vous n'avez plus qu'à l'envoyer. La clé vous est renvoyée par e-mail, avec la marche à suivre pour l'activer.</p>
+
+    <form class="fiche" id="fiche-cle" novalidate>
+      <div class="champs">
+        <label>Nom et prénom *<input name="nom" autocomplete="name" required></label>
+        <label>Exploitation, groupement ou CUMA<input name="structure" autocomplete="organization"></label>
+        <label>E-mail *<input name="email" type="email" autocomplete="email" required></label>
+        <label>Téléphone<input name="telephone" type="tel" autocomplete="tel"></label>
+        <label>SIRET<input name="siret" inputmode="numeric"></label>
+        <label>Code du poste<input name="poste" placeholder="ABCD-1234-EF56-7890" style="font-family:Consolas,monospace">
+          <small>Affiché dans Granaris, Paramètres › Licence. La clé est émise pour ce PC : sans ce code, nous vous le demanderons.</small></label>
+      </div>
+      <fieldset>
+        <legend>Licence *</legend>
+        <label class="choix"><input type="radio" name="licence" value="Ferme" required> <span><b>Ferme</b> : jusqu'à 3 apporteurs</span></label>
+        <label class="choix"><input type="radio" name="licence" value="Silo"> <span><b>Silo</b> : apporteurs sans limite</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Options</legend>
+        <label class="choix"><input type="checkbox" name="options" value="CSA-GTP"> <span><b>CSA-GTP</b> : documents d'audit, tâches réglementaires, dératisation, insecticides</span></label>
+        <label class="choix"><input type="checkbox" name="options" value="Pont-bascule"> <span><b>Pont-bascule</b> : lecture du poids de l'indicateur</span></label>
+      </fieldset>
+      <label class="message">Message<textarea name="message" rows="3" placeholder="Nombre de postes, questions, reprise des données de votre ancien logiciel…"></textarea></label>
+      <p class="erreur" id="fiche-erreur" role="alert" hidden></p>
+      <button class="bouton" type="submit">Préparer l'e-mail de demande</button>
+      <div class="secours" id="fiche-secours" hidden>
+        <p>Si votre messagerie ne s'est pas ouverte, copiez la demande et envoyez-la à <a href="#demande-cle" data-mail data-texte></a> depuis votre boîte e-mail.</p>
+        <textarea id="fiche-texte" rows="9" readonly></textarea>
+        <button class="bouton second" type="button" id="fiche-copier">Copier la demande</button>
+      </div>
+      <p class="petit">Les informations saisies ne sont enregistrées nulle part sur ce site : elles servent uniquement à rédiger l'e-mail, que vous envoyez vous-même.</p>
+    </form>
   </div>
 </section>
 
@@ -317,6 +371,49 @@ zoom.addEventListener('click', () => zoom.close());
     if (a.hasAttribute('data-texte')) a.textContent = mail;
   });
   document.querySelectorAll('[data-tel]').forEach((a) => { a.href = 'tel:+33' + tel.join('').slice(1); a.textContent = tel.join(' '); });
+
+  // Fiche « Demander une clé d'activation » : rien n'est envoyé par le site (pas de serveur) ;
+  // la fiche rédige l'e-mail et l'ouvre dans la messagerie du visiteur, qui l'envoie lui-même.
+  const fiche = document.getElementById('fiche-cle');
+  if (!fiche) return;
+  const erreur = document.getElementById('fiche-erreur');
+  fiche.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = new FormData(fiche);
+    const v = (k) => String(f.get(k) || '').trim();
+    const options = f.getAll('options');
+    const manque = [];
+    if (!v('nom')) manque.push('votre nom');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'))) manque.push('une adresse e-mail valide');
+    if (!v('licence')) manque.push('la licence (Ferme ou Silo)');
+    if (manque.length) { erreur.textContent = 'Il manque ' + manque.join(', ') + '.'; erreur.hidden = false; return; }
+    erreur.hidden = true;
+    const choix = v('licence') + (options.length ? ' + ' + options.join(' + ') : '');
+    const lignes = [
+      'Bonjour,', '',
+      "Je souhaite recevoir une clé d'activation Granaris.", '',
+      'Licence : ' + v('licence'),
+      'Options : ' + (options.length ? options.join(', ') : 'aucune'),
+      'Code du poste : ' + (v('poste') || 'à communiquer'), '',
+      'Nom : ' + v('nom'),
+      v('structure') ? 'Exploitation / structure : ' + v('structure') : null,
+      'E-mail : ' + v('email'),
+      v('telephone') ? 'Téléphone : ' + v('telephone') : null,
+      v('siret') ? 'SIRET : ' + v('siret') : null,
+      v('message') ? '\nMessage :\n' + v('message') : null,
+      '', 'Cordialement,', v('nom'),
+    ].filter((l) => l !== null);
+    const corps = lignes.join('\n');
+    const sujet = "Granaris - demande de clé d'activation (" + choix + ')';
+    document.getElementById('fiche-texte').value = 'À : ' + mail + '\nObjet : ' + sujet + '\n\n' + corps;
+    document.getElementById('fiche-secours').hidden = false;
+    window.location.href = 'mai' + 'lto:' + mail + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(corps);
+  });
+  document.getElementById('fiche-copier').addEventListener('click', async (e) => {
+    const t = document.getElementById('fiche-texte');
+    try { await navigator.clipboard.writeText(t.value); } catch { t.select(); document.execCommand('copy'); }
+    e.target.textContent = 'Demande copiée';
+  });
 })();
 document.getElementById('annee').textContent = new Date().getFullYear();
 </script>
