@@ -1,0 +1,50 @@
+# Met a jour le lien de telechargement de la version d'essai
+# avec le dernier installateur publie dans granaris-releases.
+name: Lien de telechargement
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # toutes les heures
+  workflow_dispatch:        # ou a la main, depuis l'onglet Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lien-telechargement
+
+jobs:
+  maj:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Chercher le dernier installateur
+        id: derniere
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url=$(gh api repos/sarlagristock-ux/granaris-releases/releases/latest \
+            --jq '[.assets[] | select(.name | test("^Granaris-Setup-.*\.exe$"))][0].browser_download_url')
+          if [ -z "$url" ] || [ "$url" = "null" ]; then
+            echo "Aucun installateur trouve dans la derniere version : rien a faire."
+            exit 0
+          fi
+          echo "Dernier installateur : $url"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Remplacer le lien dans index.html
+        if: steps.derniere.outputs.url != ''
+        env:
+          URL: ${{ steps.derniere.outputs.url }}
+        run: |
+          sed -i -E "s#https://github\.com/sarlagristock-ux/granaris-releases/releases/download/[^\"]+\.exe#${URL}#g" index.html
+          if git diff --quiet; then
+            echo "Le lien est deja a jour."
+            exit 0
+          fi
+          version=$(basename "$URL" .exe | sed 's/^Granaris-Setup-//')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Version d'essai : lien vers l'installateur $version"
+          git push
