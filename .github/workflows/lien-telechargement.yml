@@ -38,7 +38,7 @@ jobs:
         env:
           URL: ${{ steps.derniere.outputs.url }}
         run: |
-          sed -i -E "s#https://github\.com/sarlagristock-ux/granaris-releases/releases/download/[^\"]+\.exe#${URL}#g" index.html
+          sed -i -E "s#https://github\.com/(Granaris|sarlagristock-ux)/granaris-releases/releases/download/[^\"]+\.exe#${URL}#g" index.html
           if git diff --quiet; then
             echo "Le lien est deja a jour."
             exit 0
