@@ -242,6 +242,8 @@ details .liste{color:var(--doux);margin-bottom:12px}
 .coordonnees .ligne{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:17px}
 .coordonnees .ligne svg{flex:none;color:var(--or)}
 .coordonnees .note{color:#aebdd0;margin:18px 0 0}
+.contact .avertissement{color:#aebdd0;margin:20px 0 0;max-width:560px}
+.contact .avertissement b{color:#fff;font-weight:600}
 
 footer{background:#0a1b31;color:#8fa1b6;padding:30px 0 36px;font-size:14px}
 footer .col{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;justify-content:space-between}
@@ -607,6 +609,7 @@ dialog img{max-height:92vh;border-radius:6px}
     </div>
     <div class="questions">
     <details open><summary>Faut-il une connexion internet ?</summary><p>Non pour le travail de tous les jours : pesées, stock, expéditions, facturation et impression fonctionnent sans internet, et la clé de licence s'active sans connexion. Internet est nécessaire seulement pour :</p><ul class="liste"><li>recevoir les mises à jour du logiciel ;</li><li>envoyer les bons, factures et relevés par e-mail ;</li><li>les prévisions météo de la ventilation ;</li><li>la carte des parcelles ;</li><li>la copie de sauvegarde dans votre OneDrive, Google Drive ou Dropbox.</li></ul><p>Sans connexion, seules ces fonctions sont indisponibles : le reste du logiciel et vos données ne sont pas concernés.</p></details>
+    <details><summary>Windows ou l'antivirus affiche un avertissement à l'installation&nbsp;?</summary><p>C'est fréquent pour un logiciel récent, encore peu téléchargé. Si Windows affiche «&nbsp;Windows a protégé votre ordinateur&nbsp;», cliquez sur <b>Informations complémentaires</b> puis <b>Exécuter quand même</b>. Si votre antivirus bloque le fichier, autorisez-le seulement s'il a été téléchargé depuis ce site (fichier <b>Granaris-Setup</b>). Ne désactivez pas votre antivirus&nbsp;; en cas de doute, appelez-nous avant d'installer.</p></details>
     <details><summary>Où sont mes données ?</summary><p>Sur votre PC, dans une base enregistrée en continu, et dans les copies que vous choisissez. Elles ne passent par aucun serveur de l'éditeur, qui ne peut pas les lire.</p></details>
     <details><summary>Puis-je essayer avec des données d'exemple ?</summary><p>Oui. Au premier démarrage, «&nbsp;Découvrir avec la démonstration&nbsp;» ouvre un silo fictif déjà rempli : producteurs, deux campagnes, pesées, sorties, contrats. Vos propres données n'y sont jamais mélangées.</p></details>
     <details><summary>Je change de logiciel en cours de campagne. Que deviennent mes données ?</summary><p>Les apporteurs, acheteurs, transporteurs et le stock de départ s'importent depuis un fichier CSV (un export Excel convient). La numérotation des bons peut reprendre là où elle s'était arrêtée.</p></details>
@@ -626,6 +629,7 @@ dialog img{max-height:92vh;border-radius:6px}
         <a class="bouton or" href="https://github.com/sarlagristock-ux/granaris-releases/releases/download/v0.2.4/Granaris-Setup-0.2.4.exe">Télécharger la version d'essai</a>
         <a class="bouton contour" href="#contact" data-mail data-sujet="Granaris - demande de démonstration">Demander une démonstration</a>
       </div>
+      <p class="note avertissement"><b>Au premier lancement</b>, Windows peut afficher «&nbsp;Windows a protégé votre ordinateur&nbsp;»&nbsp;: cliquez sur <b>Informations complémentaires</b> puis <b>Exécuter quand même</b>. Votre antivirus peut aussi analyser ou bloquer le fichier un moment&nbsp;: autorisez-le seulement s'il a été téléchargé depuis ce site. En cas de doute, appelez-nous avant de l'installer.</p>
     </div>
     <div class="coordonnees">
       <div class="qui">Auxence Micou</div>
