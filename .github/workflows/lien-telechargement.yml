@@ -1,5 +1,5 @@
 # Met a jour le lien de telechargement de la version d'essai
-# avec le dernier installateur publie dans granaris-releases.
+# avec le dernier installateur publie dans Granaris/granaris-releases (meme adresse que le logiciel, produit.json depotMisesAJour).
 name: Lien de telechargement
 
 on:
@@ -24,7 +24,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          url=$(gh api repos/sarlagristock-ux/granaris-releases/releases/latest \
+          url=$(gh api repos/Granaris/granaris-releases/releases/latest \
             --jq '[.assets[] | select((.name | startswith("Granaris-Setup-")) and (.name | endswith(".exe")))][0].browser_download_url')
           if [ -z "$url" ] || [ "$url" = "null" ]; then
             echo "Aucun installateur trouve dans la derniere version : rien a faire."
