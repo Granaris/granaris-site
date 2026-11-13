@@ -25,7 +25,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           url=$(gh api repos/sarlagristock-ux/granaris-releases/releases/latest \
-            --jq '[.assets[] | select(.name | test("^Granaris-Setup-.*\.exe$"))][0].browser_download_url')
+            --jq '[.assets[] | select((.name | startswith("Granaris-Setup-")) and (.name | endswith(".exe")))][0].browser_download_url')
           if [ -z "$url" ] || [ "$url" = "null" ]; then
             echo "Aucun installateur trouve dans la derniere version : rien a faire."
             exit 0
